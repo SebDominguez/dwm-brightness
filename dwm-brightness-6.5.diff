@@ -1,0 +1,33 @@
+diff -up a/config.def.h b/config.def.h
+--- a/config.def.h	2025-03-11 19:13:07.118074905 +0100
++++ b/config.def.h	2025-03-11 23:06:39.172558686 +0100
+@@ -59,6 +59,8 @@ static const Layout layouts[] = {
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+ static const char *termcmd[]  = { "st", NULL };
++static const char *brightnessup[]   = { "brightnessctl", "set", "+10%", NULL };
++static const char *brightnessdown[] = { "brightnessctl", "set", "10%-", NULL };
+ 
+ static const Key keys[] = {
+ 	/* modifier                     key        function        argument */
+@@ -95,6 +97,8 @@ static const Key keys[] = {
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
++	{ 0, XF86XK_MonBrightnessUp,    spawn,                     {.v = brightnessup } },
++	{ 0, XF86XK_MonBrightnessDown,  spawn,                     {.v = brightnessdown } },
+ };
+ 
+ /* button definitions */
+diff -up a/dwm.c b/dwm.c
+--- a/dwm.c	2025-03-11 19:13:07.118074905 +0100
++++ b/dwm.c	2025-03-11 23:07:18.519643609 +0100
+@@ -32,6 +32,7 @@
+ #include <sys/wait.h>
+ #include <X11/cursorfont.h>
+ #include <X11/keysym.h>
++#include <X11/XF86keysym.h>
+ #include <X11/Xatom.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xproto.h>
+Common subdirectories: a/.git and b/.git
